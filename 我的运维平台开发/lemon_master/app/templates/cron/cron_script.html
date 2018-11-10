@@ -1,0 +1,147 @@
+<script>
+    $(document).ready( function () {
+        $('#cron_list').DataTable();
+    });
+
+    $.validator.addMethod('IP4Checker', function(value) {
+        var ip = /^(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[0-9]{2}|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[0-9]{2}|[0-9])){3}$/;
+        return value.match(ip);
+    }, 'Invalid IP address');
+
+    $.validator.addMethod('minuteChecker', function(value) {
+        var minute = /^[0-5]\d$/;
+        return value.match(minute);
+    }, 'Invalid minute expression');
+
+    $.validator.addMethod('hourChecker', function(value) {
+        var minute = /^([0-1]\d|2[0-3]|\*)$/;
+        return value.match(minute);
+    }, 'Invalid hour expression');
+
+    $.validator.addMethod('dayChecker', function(value) {
+        var minute = /^([1-9]|1[0-9]|2[0-8]|\*)$/;
+        return value.match(minute);
+    }, 'Invalid day of month expression');
+
+    $.validator.addMethod('monthChecker', function(value) {
+        var minute = /^([1-9]|1[0-2]|\*)$/;
+        return value.match(minute);
+    }, 'Invalid month expression');
+
+    $.validator.addMethod('weekChecker', function(value) {
+        var minute = /^([0-6]|\*)$/;
+        return value.match(minute);
+    }, 'Invalid day of week expression');
+
+    $("#cron-des").validate({
+        rules: {
+            add_cron_minute: {
+                required: true,
+                minuteChecker: true
+            },
+            add_cron_hour: {
+                required: true,
+                hourChecker: true
+            },
+            add_cron_day: {
+                required: true,
+                dayChecker: true
+            },
+            add_cron_month: {
+                required: true,
+                monthChecker: true
+            },
+            add_cron_week: {
+                required: true,
+                weekChecker: true
+            }
+        }
+    });
+
+    function Delete(elem){
+        localStorage.setItem('deleteId',$(elem).attr('data-id'));
+        $('#deleteModal').modal();
+    }
+
+    function ConfirmDelete(){
+        $.ajax({
+            url : '/deleteCron',
+            data : {cron_id:localStorage.getItem('deleteId')},
+            type : 'POST',
+            success: function(msg){         <!-- alert(res)   the msg info: {'status':'OK'} -->
+                var result = JSON.parse(msg);
+                if(result.status == 'OK'){
+                    top.location.reload();
+                }
+                else{
+                    alert(result.status);
+                }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+
+    function Edit(elem){
+        localStorage.setItem('editId',$(elem).attr('data-id'));
+        $.ajax({
+            url : '/get_cron_byid',
+            data : {cron_id:$(elem).attr('data-id')},
+            type : 'POST',
+            success: function(res){
+                var data = JSON.parse(res);
+                $('#edit_cron_name').val(data[0]['cron_name']);
+                $('#edit_cron_command').val(data[0]['cron_command']);
+                $('#edit_cron_owner').val(data[0]['cron_owner']);
+                $('#edit_cron_user').val(data[0]['cron_user']);
+                $('#edit_cron_server').val(data[0]['cron_server']);
+                $('#edit_cron_minute').val(data[0]['cron_schedule'][0]);
+                $('#edit_cron_hour').val(data[0]['cron_schedule'][1]);
+                $('#edit_cron_day').val(data[0]['cron_schedule'][2]);
+                $('#edit_cron_month').val(data[0]['cron_schedule'][3]);
+                $('#edit_cron_week').val(data[0]['cron_schedule'][4]);
+                $('#editModal').modal();
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+
+    $('#btnUpdate').click(function(){
+        $.ajax({
+            url : '/updateCron',
+            data : {
+                cron_id:localStorage.getItem('editId'),
+                cron_name:$('#edit_cron_name').val(),
+                cron_command:$('#edit_cron_command').val(),
+                cron_owner:$('#edit_cron_owner').val(),
+                cron_user:$('#edit_cron_user').val(),
+                cron_server:$('#edit_cron_server').val(),
+                cron_minute:$('#edit_cron_minute').val(),
+                cron_hour:$('#edit_cron_hour').val(),
+                cron_day:$('#edit_cron_day').val(),
+                cron_month:$('#edit_cron_month').val(),
+                cron_week:$('#edit_cron_week').val()
+            },
+            type : 'POST',
+            success: function(res){
+                console.log(res);
+                top.location.reload();
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+
+//    $('#cron_server_des').submit(function () {
+//        alert("aaaaaaaaaaaaa");
+//    });
+
+        $('#btnGenerate').click(function(){
+			run_waitMe('roundBounce');
+		});
+
+</script>

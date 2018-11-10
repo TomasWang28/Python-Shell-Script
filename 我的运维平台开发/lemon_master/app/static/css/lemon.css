@@ -1,0 +1,39 @@
+.custom_top {
+    padding-top: 20px;
+}
+
+.nav-tabs > li.active > a {
+  color: #ac2925;
+}
+.nav-tabs > li > a {
+  color: #293846;
+}
+
+.users_box, .roles_box {
+    background-color:#fff;
+    margin: 10px;
+}
+
+.users_content, .roles_content {
+    padding-top: 40px;
+}
+
+.table_box{
+    margin: 10px;
+
+}
+.table_header{
+    height: 40px;
+    border-radius:3px;
+}
+.table_content{
+    margin-top: 10px;
+}
+span strong { color:#FF0000;}
+
+#newServer {margin-top: 8px; margin-left:6px; }
+#newCron {margin-top: 8px; margin-left:6px; }
+#newWorkOrder {margin-top: 8px; margin-left:6px; }
+#newBackup {margin-top: 8px; margin-left:6px; }
+#generateCron {margin-top: 8px; margin-left:10px;}
+#addBackupServer {margin-top: 8px; margin-left:100px;}

@@ -1,0 +1,33 @@
+<div class="table_box">
+    <div class="table_header">
+        <h5 style="color: #eea236">注意：Audit 只显示近90天的操作记录。</h5>
+    </div>
+
+    <hr>
+
+    <div class="table_content">
+        <table id="audit_list" class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>audit_type</th>
+                    <th class="info">audit_op</th>
+                    <th>audit_content</th>
+                    <th class="danger">audit_time</th>
+                    <th>audit_user</th>
+                </tr>
+            </thead>
+            <tbody id="audit_tb">
+                {% for audit in audit_tuple %}
+                     <tr class="audit_tr">
+                        <td class="center">{{ audit[0] }}</td>
+                        <td class="center">{{ audit[1]}}</td>
+                        <td class="center">{{ audit[2]}}</td>
+                        <td class="center">{{ audit[3]}}</td>
+                        <td class="center">{{ audit[4]}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>

@@ -1,0 +1,210 @@
+<div id="addModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 id="addModalLabel" class="modal-title">New work_order</h4>
+              </div>
+              <!-- you can place the contents in modal-body -->
+              <div class="modal-body">
+                <form class="form-horizontal"  action="{{ url_for('work_order.addWorkOrder') }}" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工单分类</label>
+                        <div class="col-sm-10">
+                            <select id="addWO_type"  name="addWO_type" class="form-control">
+                                <option value="技术支持">技术支持</option>
+                                <option value="资源申请">资源申请</option>
+                                <option value="资源申请">故障处理</option>
+                                <option value="资源申请">日常工作</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">所属部门</label>
+                        <div class="col-sm-10">
+                            <select id="addWO_department" name="addWO_department" class="form-control">
+                                <option value="IBS">IBS</option>
+                                <option value="TOP">TOP</option>
+                                <option value="TOP">OPS</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工单紧急度</label>
+                        <div class="col-sm-10">
+                            <select id="addWO_priority" name="addWO_priority" class="form-control">
+                                <option value="一般">一般</option>
+                                <option value="中等">中等</option>
+                                <option value="紧急">紧急</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">接收工作组</label>
+                        <div class="col-sm-10">
+                            <select id="addWO_group" name="addWO_group" class="form-control">
+                                <option value="IT">IT</option>
+                                <option value="SCM">SCM</option>
+                                <option value="SYS">SYS</option>
+                                <option value="DBA">DBA</option>
+                                <option value="DBA">NET</option>
+                                <option value="DBA">ARCH</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工单内容</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" name="addWO_content" required="required" placeholder="请您填写提交工单的详细内容"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-info" data-dismiss="modal">Cancle</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+              </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+<div id="editModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <label id="editModalLabel">Edit WO_SN:</label>
+              <input type="button" disabled="disabled" class="btn btn-primary" id="editWO_sn">
+          </div>
+          <!-- you can place the contents in modal-body -->
+          <div class="modal-body" >
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">工单分类</label>
+                    <div class="col-sm-10">
+                        <select id="editWO_type"  name="editWO_type" class="form-control">
+                            <option value="技术支持">技术支持</option>
+                            <option value="资源申请">资源申请</option>
+                            <option value="资源申请">故障处理</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">提交人</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="editWO_submitter" disabled="disabled" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">所属部门</label>
+                    <div class="col-sm-10">
+                        <select id="editWO_department" name="editWO_department" class="form-control">
+                            <option value="IBS">IBS</option>
+                            <option value="TOP">TOP</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">工单紧急度</label>
+                    <div class="col-sm-10">
+                        <select id="editWO_priority" name="editWO_priority" class="form-control">
+                            <option value="一般">一般</option>
+                            <option value="中等">中等</option>
+                            <option value="紧急">紧急</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">接收工作组</label>
+                    <div class="col-sm-10">
+                        <select id="editWO_group" name="editWO_group" class="form-control">
+                            <option value="IT">IT</option>
+                            <option value="SCM">SCM</option>
+                            <option value="SYS">SYS</option>
+                            <option value="DBA">DBA</option>
+                            <option value="DBA">NET</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">工单内容</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="editWO_content" name="editWO_content" required="required" disabled="disabled"></textarea>
+                    </div>
+                </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                <button id="btnUpdate" type="button" class="btn btn-primary">Update</button>
+              </div>
+            </form>
+          </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="acceptModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Accept work_order</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-3 ">WO_SN:</label>
+                <input type="button" disabled="disabled" class="btn" id="acceptWO_sn">
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 ">WO_Content:</label>
+                <input type="button" disabled="disabled" class="btn" id="acceptWO_content">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" onclick="Confirm_Accept(this)">Accept</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+          </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="lookModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">WO Detail</h4>
+          </div>
+          <div id="wo_detail" class="modal-body">
+                <script id="woTemplate" type="text/x-jquery-tmpl">
+                    <div>
+                        <h3>wo_sn: ${wo_sn}</h3>
+                    </div>
+                </script>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+          </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="finishModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Close work_order</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-3 ">WO_SN:</label>
+                <input type="button" disabled="disabled" class="btn" id="finishWO_sn">
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 ">WO_Content:</label>
+                <input type="button" disabled="disabled" class="btn" id="finishWO_content">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" onclick="Confirm_Finish(this)">Yes</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+          </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,208 @@
+<!-- job add modal-->
+<div id="addModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="addModalLabel" class="modal-title">Add New Cron</h4>
+          </div>
+          <!-- you can place the contents in modal-body -->
+          <div class="modal-body">
+            <form class="form-horizontal" id="cron-des" action="{{ url_for('cron.addCron') }}" method="post">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_name</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="add_cron_name" name="add_cron_name" required="required"  data-rule-required="true" placeholder="input your cron name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_command</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="add_cron_command" name="add_cron_command" required="required" placeholder="cron command">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_server</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="add_cron_server" name="add_cron_server" required="required" placeholder="cron_server name">
+                        <p>
+                            <strong style="color: #b81900">注意：请先确保目标服务器安装好salt-minion 代理客户端. BackupName 引用需是salt Accepted Keys。如:<br /></strong>
+                            <code>
+                                [root@om-center ~]# salt-key<br />
+                                Accepted Keys:<br />
+                                om-center<br />
+                                test-client.mgtest.com
+                            </code>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_schedule</label>
+                    <div class="col-sm-2">
+                        <input id="add_cron_minute" name="add_cron_minute" class="form-control" type="text"  required="required" value="00">
+                        <span class="help-block text-center">minute(00-59)</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="add_cron_hour" name="add_cron_hour" class="form-control" type="text"  required="required" value="01">
+                        <span class="help-block text-center">hour(00-23)</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="add_cron_day" name="add_cron_day" class="form-control" type="text" required="required" value="*">
+                        <span class="help-block text-center">day(1-28)</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="add_cron_month" name="add_cron_month" class="form-control" type="text" required="required" value="*">
+                        <span class="help-block text-center">month(1-12)</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="add_cron_week" name="add_cron_week" class="form-control" type="text" required="required" value="*">
+                        <span class="help-block text-center">week(0-6)</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Owner</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="add_cron_owner" name="add_cron_owner" required="required" placeholder="Owner">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_user</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="add_cron_user" name="add_cron_user" required="required" placeholder="create cron for linux user">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-info" data-dismiss="modal">Cancle</button>
+                  <button id="btnAdd" type="submit" class="btn btn-primary" onclick="AddBackup(this)" >Add</button>
+                </div>
+            </form>
+          </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Cron</h4>
+          </div>
+          <div class="modal-body">
+            <p style="color:red">Are you sure to delete this cron ? !!!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" onclick="ConfirmDelete(this)">Yes</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+          </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="editModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="editModalLabel" class="modal-title">Edit cron_info</h4>
+          </div>
+          <!-- you can place the contents in modal-body -->
+          <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_name</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="edit_cron_name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_command</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="edit_cron_command">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_schedule</label>
+                    <div class="col-sm-2">
+                        <input id="edit_cron_minute" name="edit_cron_minute" class="form-control" type="text"  required="required" value="00">
+                        <span class="help-block text-center">minute</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="edit_cron_hour" name="edit_cron_hour" class="form-control" type="text"  required="required" value="01">
+                        <span class="help-block text-center">hour</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="edit_cron_day" name="edit_cron_day" class="form-control" type="text" required="required" value="*">
+                        <span class="help-block text-center">day</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="edit_cron_month" name="edit_cron_month" class="form-control" type="text" required="required" value="*">
+                        <span class="help-block text-center">month</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="edit_cron_week" name="edit_cron_week" class="form-control" type="text" required="required" value="*">
+                        <span class="help-block text-center">week</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_server</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="edit_cron_server"  disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_owner</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="edit_cron_owner">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_user</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="edit_cron_user">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                    <button id="btnUpdate" type="button" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+          </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+<div id="generateModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Generate Cron</h4>
+          </div>
+          <!-- you can place the contents in modal-body -->
+          <div class="modal-body">
+              <p style="color:red">You can have a check by "crontab -l" on target server!!!</p>
+            <form class="form-horizontal" id="cron_server_des" action="{{ url_for('cron.generateCron') }}" method="post">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_Server</label>
+                    <div class="col-sm-10">
+                        <select id="g_Cron_server" name="g_Cron_server" class="form-control">
+                            {% for cron_server in cron_server_list %}
+                                <option value="{{ cron_server }}">{{ cron_server }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">cron_User</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="cron_user" required="required" placeholder="此用户必须存在目标服务器上">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-info" data-dismiss="modal">Cancle</button>
+                  <button id="btnGenerate" type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block stylesheet %}
+{% endblock%}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-6" id="it_serve_department" ></div>
+    <div class="col-sm-6" id="ops_serve_department" ></div>
+</div>
+<div class="row">
+    <div class="col-sm-3" id="all_serve_department" ></div>
+    <div class="col-sm-3" id="a_serve_department" ></div>
+    <div class="col-sm-3" id="b_serve_department" ></div>
+    <div class="col-sm-3" id="c_serve_department" ></div>
+</div>
+<div class="row">
+    <div class="col-sm-6" id="e_serve_department" ></div>
+    <div class="col-sm-6" id="f_serve_department" ></div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    var it_wo_chart_dict = {{ it_wo_chart_dict|safe }}
+    var sys_wo_chart_dict = {{ sys_wo_chart_dict|safe }}
+    var all_wo_chart_dict = {
+        chart: {{ all_wo_chart_dict['chart']|safe }},
+		title: {{ all_wo_chart_dict['title']|safe }},
+		xAxis: {{ all_wo_chart_dict['xAxis']|safe }},
+		yAxis: {{ all_wo_chart_dict['yAxis']|safe }},
+		series: {{ all_wo_chart_dict['series']|safe }},
+		credits: {enabled: false}
+    }
+
+        var a_wo_chart_dict = {
+        chart: { type: 'line', 'height': 350 },
+		title: {{ all_wo_chart_dict['title']|safe }},
+		xAxis: {{ all_wo_chart_dict['xAxis']|safe }},
+		yAxis: {{ all_wo_chart_dict['yAxis']|safe }},
+		series: {{ all_wo_chart_dict['series']|safe }},
+		credits: {enabled: false}
+    }
+        var b_wo_chart_dict = {
+        chart: { type: 'bar', 'height': 350 },
+		title: {{ all_wo_chart_dict['title']|safe }},
+		xAxis: {{ all_wo_chart_dict['xAxis']|safe }},
+		yAxis: {{ all_wo_chart_dict['yAxis']|safe }},
+		series: {{ all_wo_chart_dict['series']|safe }},
+		credits: {enabled: false}
+    }
+        var c_wo_chart_dict = {
+        chart: { type: 'area', 'height': 350 },
+		title: {{ all_wo_chart_dict['title']|safe }},
+		xAxis: {{ all_wo_chart_dict['xAxis']|safe }},
+		yAxis: {{ all_wo_chart_dict['yAxis']|safe }},
+		series: {{ all_wo_chart_dict['series']|safe }},
+		credits: {enabled: false}
+    }
+
+    var f_wo_chart_dict = {
+        chart: { plotBackgroundColor: null, plotBorderWidth: null, plotShadow: false },
+		title: {{ all_wo_chart_dict['title']|safe }},
+        tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            } } },
+
+            series: [{
+                type: 'pie',
+                name: 'IT serve share',
+                data: [
+                    ['技术支持', 45.0],
+                    ['资源申请', 26.8],
+                    ['故障处理', 5]
+                ]
+            }],
+		credits: {enabled: false}
+    }
+
+    $(function () {
+        $('#it_serve_department').highcharts(it_wo_chart_dict);
+
+        $('#ops_serve_department').highcharts(sys_wo_chart_dict);
+
+        $('#all_serve_department').highcharts(all_wo_chart_dict);
+        $('#a_serve_department').highcharts(a_wo_chart_dict);
+        $('#b_serve_department').highcharts(b_wo_chart_dict);
+        $('#c_serve_department').highcharts(c_wo_chart_dict);
+        $('#f_serve_department').highcharts(f_wo_chart_dict);
+        $('#e_serve_department').highcharts(
+                {
+                    chart: { plotBackgroundColor: null, plotBorderWidth: null, plotShadow: false },
+                    title: { text: 'Browser market shares at a specific website, 2010' },
+                    tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectorColor: '#000000',
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            } } },
+                    series: [{
+                        type: 'pie',
+                        name: 'Browser share',
+                        data: [
+                            ['Firefox', 45.0],
+                            ['IE', 26.8], { name: 'Chrome', y: 12.8, sliced: true, selected: true },
+                            ['Safari', 8.5], ['Opera', 6.2],
+                            ['Others', 0.7]
+                        ]
+                    }]
+                });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,143 @@
+<script>
+    $("#userform").validate({
+        rules: {
+            username: "required",
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                minlength: 6
+            },
+            confirm_password: {
+                equalTo: "#password"
+            }
+        }
+    });
+
+    $("#pass_form").validate({
+        rules: {
+            update_password: {
+                required: true,
+                minlength: 6
+            },
+            update_confirm_password: {
+                equalTo: "#update_password"
+            }
+        }
+    });
+    function AddUser() {
+        if (!$('#userform').valid()) {
+                    return;
+                }
+            $.ajax({
+                url: '/addUser',    <!-- 定议函数名不要和url后缀一样 -->
+                type: 'POST',
+                data: {
+                    username:$.trim($('#username').val()),
+                    email:$('#email').val(),
+                    password:$('#password').val(),
+                    role:$('#user-role').val(),
+                },
+                success: function(result){
+                    <!-- $('#addModal').modal('hide'); -->
+                    top.location.reload();
+                },
+                error: function(error){
+                        console.log(error);
+                }
+            });
+    }
+
+    function Delete(elem){
+        localStorage.setItem('deleteId',$(elem).attr('data-id'));
+        $('#deleteModal').modal();
+    }
+    function ConfirmDelete(){
+            $.ajax({
+                url : '/deleteUser',
+                data : {id:localStorage.getItem('deleteId')},
+                type : 'POST',
+                success: function(msg){         <!-- alert(res)   the msg info: {'status':'OK'} -->
+                    var result = JSON.parse(msg);
+                    if(result.status == 'OK'){
+                        top.location.reload();
+                    }
+                    else{
+                        alert(result.status);
+                    }
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+    }
+
+    function Edit(elem){
+        localStorage.setItem('editId',$(elem).attr('data-id'));
+        $.ajax({
+            url : '/get_user_byid',
+            data : {id:$(elem).attr('data-id')},
+            type : 'POST',
+            success: function(res){
+                var data = JSON.parse(res);
+                $('#editUsername').val( data[0]['username']);
+                $('#editEmail').val( data[0]['email']);
+                $('#editRole').val( data[0]['role'] );
+                $('#editModal').modal();
+            }
+        });
+    }
+    $('#btnUpdate').click(function(){
+        $.ajax({
+            url : '/updateUser',
+            data : {
+                id:localStorage.getItem('editId'),
+                email:$('#editEmail').val(),
+                group:$('#editGroup').val(),
+            },
+            type : 'POST',
+            success: function(res){
+            <!-- $('#editModal').modal('hide'); -->
+                top.location.reload();
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+
+    function UpdatePass(elem){
+        localStorage.setItem('PassId',$(elem).attr('data-id'));
+        $('#passUser').val( $(elem).attr('data-user'));
+        $('#passwordModal').modal();
+    }
+    function confirm_UpdatePass(){
+        if (!$('#pass_form').valid()) {
+            return;
+        }
+        $.ajax({
+            url : '/updatePass',
+            data : {
+                user_id:localStorage.getItem('PassId'),
+                user_password:$('#update_password').val(),
+            },
+            type : 'POST',
+            success: function(res){
+                var data = JSON.parse(res);
+                console.log(data);
+                if (data['status']=='ERROR') {
+                    alert(data['status']);
+                }
+                else {
+                    top.location.reload();
+                }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+
+</script>

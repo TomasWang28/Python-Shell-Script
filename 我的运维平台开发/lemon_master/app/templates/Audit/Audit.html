@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block stylesheet %}
+    <style>
+       hr {
+           border-top: 2px solid  #987cb9 !important;
+           margin-top:5px !important;
+       }
+    </style>
+{% endblock%}
+
+{% block content %}
+    {% include 'audit/audit_content.html' %}
+{% endblock %}
+
+{% block script %}
+    {% include 'audit/audit_script.html' %}
+{% endblock %}

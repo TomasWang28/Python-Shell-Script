@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block stylesheet %}
+    <style>
+       hr {
+           border-top: 2px solid  #987cb9 !important;
+           margin-bottom:5px !important;
+           margin-top:5px !important;
+       }
+    </style>
+{% endblock%}
+
+{% block content %}
+<div id="wo_detail" class="col-sm-12">
+
+    <div class="row">
+        <div class="col-sm-3">
+           <h4> wo_sn: {{ work_order_info_list[0]['wo_sn']}}</h4>
+        </div>
+        <div class="col-sm-3">
+            <h4>wo_type: {{ work_order_info_list[0]['wo_type']}}</h4>
+        </div>
+        <div class="col-sm-3">
+            <h4>wo_sn: {{ work_order_info_list[0]['wo_priority']}}</h4>
+        </div>
+        <div class="col-sm-3">
+            <h4>wo_department: {{ work_order_info_list[0]['wo_department']}}</h4>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <h5>submitter: <button class="btn btn-success">{{ work_order_info_list[0]['submitter']}}</button></h5>
+        </div>
+        <div class="col-sm-3">
+            <h5>wo_accepter:<button class="btn btn-success">{{ work_order_info_list[0]['wo_accepter']}}</button></h5>
+        </div>
+        <div class="col-sm-3">
+            <h5>wo_group:<button class="btn btn-success">{{ work_order_info_list[0]['wo_group']}}</button></h5>
+        </div>
+        <div class="col-sm-3">
+            {% if work_order_info_list[0]['wo_state'] == '正在处理' %}
+                <h5>wo_state:<button class="btn btn-warning">{{ work_order_info_list[0]['wo_state']}} ...</button></h5>
+            {% elif work_order_info_list[0]['wo_state'] == '已完成' %}
+                <h5>wo_state:<button class="btn btn-success">{{ work_order_info_list[0]['wo_state']}} ...</button></h5>
+            {% elif work_order_info_list[0]['wo_state'] == '待处理' %}
+                <h5>wo_state:<button class="btn btn-danger">{{ work_order_info_list[0]['wo_state']}} ...</button></h5>
+            {% endif%}
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <hr>
+    <h4>wo_content:</h4>
+    <h5>{{ work_order_info_list[0]['wo_content']}}</h5>
+
+    <br>
+    <br>
+
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h4>submit_time: {{ work_order_info_list[0]['submit_time']}}</h4>
+        </div>
+        <div class="col-sm-3">
+            <h4>accept_time: {{ work_order_info_list[0]['accept_time']}}</h4>
+        </div>
+        <div class="col-sm-3">
+            <h4>done_time: {{ work_order_info_list[0]['done_time']}}</h4>
+        </div>
+        <div class="col-sm-3">
+            <h4>process_time: {{ work_order_info_list[0]['process_time']}} 分钟</h4>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

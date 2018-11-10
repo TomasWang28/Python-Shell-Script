@@ -1,0 +1,75 @@
+<div class="table_box">
+    <div class="table_header bg-lightblack">
+        <button id="newWorkOrder" class="btn btn-info btn-xs" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus"></i></button>
+    </div>
+
+    <div class="table_content">
+        <table id="work_order_list" class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                  <th class="info">工单编号</th>
+                  <th class="info">工单内容</th>
+                  <th class="info">工单分类</th>
+                  <th class="info">所属部门</th>
+                  <th>提交人</th>
+                  <th>提交时间</th>
+                  <th>接收人</th>
+                  <th>工作组</th>
+                  <th>工单状态</th>
+                  <th class="info">处理动作</th>
+                </tr>
+            </thead>
+            <tbody id="work_order_tb">
+                {% for work_order in work_order_list %}
+                     <tr class="server_tr">
+                        <td class="center">{{ work_order[1]}}</td>
+                        <td class="center">{{ work_order[2][:20] }}</td>
+                        <td class="center">{{ work_order[3] }}</td>
+                        <td class="center">{{ work_order[4] }}</td>
+                        <td class="center">{{ work_order[5] }}</td>
+                        <td class="center">{{ work_order[6] }}</td>
+                        <td class="center">{{ work_order[7] }}</td>
+                        <td class="center">{{ work_order[8] }}</td>
+                        {% if work_order[9] == '待处理' %}
+                            <td class="center danger">{{ work_order[9] }}</td>
+                        {% else %}
+                            <td class="center">{{ work_order[9] }}</td>
+                        {% endif %}
+                        <td class="center">
+                            <button data-id={{ work_order[0] }} type="button" class="btn btn-xs" onclick="window.location='/get_work_order_byid?wo_id={{ work_order[0] }}'">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                            {% if  role_id == 1 %}
+                                <button data-id={{ work_order[0] }} type="button" class="btn btn-xs" onclick="Edit(this)">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </button>
+                                <button data-id={{ work_order[0] }} data-wo-sn="{{ work_order[1]}}" data-wo-content="{{ work_order[2][:20] }}" type="button" class="btn btn-xs" onclick="Accept(this)">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                </button>
+                                {% if work_order[9] == '待处理' or  work_order[9] == '已完成'%}
+                                    <button data-id={{ work_order[0] }} type="button" class="btn btn-xs" disabled="disabled">
+                                        <i class="fa fa-arrows" aria-hidden="true"></i>
+                                    </button>
+                                {% else %}
+                                    <button data-id={{ work_order[0] }} data-wo-sn="{{ work_order[1]}}" data-wo-content="{{ work_order[2][:20] }}" type="button" class="btn btn-xs" onclick="Finish(this)">
+                                        <i class="fa fa-arrows" aria-hidden="true"></i>
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                                <button data-id={{ work_order[0] }} type="button" class="btn btn-xs" disabled="disabled">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </button>
+                                <button data-id={{ work_order[0] }} type="button" class="btn btn-xs" disabled="disabled">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                </button>
+                                <button data-id={{ work_order[0] }} type="button" class="btn btn-xs" disabled="disabled">
+                                    <i class="fa fa-arrows" aria-hidden="true"></i>
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block stylesheet %}
+{% endblock%}
+
+{% block content %}
+    {% include 'user/user_users.html' %}
+    {% include 'user/user_roles.html' %}
+    {% include 'user/user_modal.html' %}
+{% endblock %}
+
+{% block script %}
+    {% include 'user/user_users_script.html' %}
+    {% include 'user/user_roles_script.html' %}
+{% endblock %}

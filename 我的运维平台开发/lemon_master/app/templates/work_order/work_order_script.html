@@ -1,0 +1,94 @@
+<script>
+    $(document).ready( function () {
+        $('#work_order_list').DataTable();
+    });
+    function Edit(elem){
+        localStorage.setItem('editId',$(elem).attr('data-id'));
+        $.ajax({
+            url : '/get_work_order_byid',
+            data : {wo_id:$(elem).attr('data-id')},
+            type : 'POST',
+            success: function(res){
+                var data = JSON.parse(res);
+                $('#editWO_sn').val(data[0]['wo_sn']);
+                $('#editWO_type').val(data[0]['wo_type']);
+                $('#editWO_submitter').val(data[0]['submitter']);
+                $('#editWO_department').val(data[0]['wo_department']);
+                $('#editWO_priority').val(data[0]['wo_priority']);
+                $('#editWO_group').val(data[0]['wo_group']);
+                $('#editWO_content').val(data[0]['wo_content']);
+                $('#editModal').modal();
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+
+    $('#btnUpdate').click(function(){
+        $.ajax({
+            url : '/updateWorkOrder',
+            type : 'POST',
+            data : {
+                wo_id:localStorage.getItem('editId'),
+                wo_type:$('#editWO_type').val(),
+                wo_department:$('#editWO_department').val(),
+                wo_group:$('#editWO_group').val(),
+                wo_priority:$('#editWO_priority').val(),
+            },
+            success: function(res){
+                top.location.reload();
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+
+    function Accept(elem){
+        localStorage.setItem('acceptId',$(elem).attr('data-id'));
+        $('#acceptWO_sn').val($(elem).attr('data-wo-sn'));
+        $('#acceptWO_content').val($(elem).attr('data-wo-content'));
+        $('#acceptModal').modal();
+    }
+
+    function Confirm_Accept(){
+        $.ajax({
+            url : '/acceptWorkOrder',
+            type : 'POST',
+            data : {
+                wo_id:localStorage.getItem('acceptId')
+            },
+            success: function(res){
+                top.location.reload();
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+
+    function Finish(elem){
+        localStorage.setItem('finishId',$(elem).attr('data-id'));
+        $('#finishWO_sn').val($(elem).attr('data-wo-sn'));
+        $('#finishWO_content').val($(elem).attr('data-wo-content'));
+        $('#finishModal').modal();
+    }
+
+    function Confirm_Finish(){
+        $.ajax({
+            url : '/finishWorkOrder',
+            type : 'POST',
+            data : {
+                wo_id:localStorage.getItem('finishId')
+            },
+            success: function(){
+                top.location.reload();
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }
+
+</script>
